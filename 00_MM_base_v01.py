@@ -15,6 +15,18 @@ def yes_no(question):
             print("Please enter yes or no")
 
 
+def not_blank(question):
+    while True:
+        response = input(question)
+
+        if response != "":
+            return response
+
+        else:
+            print("This can't be blank, please enter a response")
+            print()
+
+
 # checks users enter am integer to a given question
 def num_check(question):
     while True:
@@ -44,7 +56,7 @@ print()
 # loop to sell tickets
 
 while ticket_sold < MAX_TICKETS:
-    name = input("Please enter your name or 'xxx' to quit: ")
+    name = not_blank("Please enter your name or 'xxx' to quit: ")
 
     if name == 'xxx':
         break
