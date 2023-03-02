@@ -1,20 +1,5 @@
 # functions go here
 
-# Checks user has entered yes / no to a question
-def yes_no(question):
-    while True:
-        response = input(question).lower()
-
-        if response == "yes" or response == "y":
-            return "yes"
-
-        elif response == "no" or response == "n":
-            return "no"
-
-        else:
-            print("Please enter yes or no")
-
-
 def not_blank(question):
     while True:
         response = input(question)
@@ -39,14 +24,55 @@ def num_check(question):
             print("Please enter an integer.")
 
 
+# Calculate the ticket price based on the age
+def calc_ticket_price(var_age):
+    # ticket is $7:50 for users under 16
+    if var_age < 16:
+        price = 7.5
+
+    # ticket is $10.50 for users between 16 and 64
+    elif var_age < 65:
+        price = 10.5
+
+    # ticket price is $6:50 for seniors (65+)
+    else:
+        price = 6.5
+
+    return price
+
+
+# check that users enter a valid response (eg: yes / no)
+# cash / credit based on list of options
+def string_checker(question, num_letters, valid_response):
+    if num_letters == 1:
+        short_version = 1
+    else:
+        short_version = 2
+
+    while True:
+        response = input(question).lower()
+
+        for item in valid_response:
+            if response == item[:short_version] or response == item:
+                return item
+
+        print(f"Please enter {valid_response[0]} or {valid_response[1]}")
+
+
 # main routine starts here
 
 # set maximum number of below
 MAX_TICKETS = 3
 ticket_sold = 0
+
+yes_no_list = ["yes", "no"]
+payment_list = ["cash", "credit"]
+
 # Ask user if they want see the instructions
 
-want_instructions = yes_no("Do you want to read the instructions?")
+want_instructions = string_checker("Do you want to read the"
+                                   " instructions (y/n):",
+                                   1, yes_no_list)
 
 if want_instructions == "yes":
     print("instructions go here")
@@ -73,6 +99,17 @@ while ticket_sold < MAX_TICKETS:
         continue
 
     ticket_sold += 1
+
+    # calculate ticket cost
+    ticket_cost = calc_ticket_price(age)
+    print("Age: {}, Ticket Price: ${:.2f}".format(age, ticket_cost))
+
+    # get payment method
+    payment_method = string_checker("choose a payment method "
+                                    "(cash /credit",
+                                    2, payment_list)
+
+    print(f"You chose {payment_method}")
 
 # output number of tickets sold
 if ticket_sold == MAX_TICKETS:
